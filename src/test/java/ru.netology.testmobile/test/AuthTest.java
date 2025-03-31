@@ -1,4 +1,4 @@
-package ru.netology.testmobile.test;
+package ru.netology.test;
 
 import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,14 +9,16 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import static ru.netology.testmobile.data.DataGenerator.*;
 import static ru.netology.testmobile.data.DataGenerator.Registration.getRegisteredUser;
 import static ru.netology.testmobile.data.DataGenerator.Registration.getUser;
+import static ru.netology.testmobile.data.DataGenerator.getRandomLogin;
+import static ru.netology.testmobile.data.DataGenerator.getRandomPassword;
 
 public class AuthTest {
+
     @BeforeEach
     void setup() {
-        open("http;//localhost:9999");
+        open("http://localhost:9999");
     }
 
     @Test
@@ -26,7 +28,7 @@ public class AuthTest {
         $("[data-test-id='login'] input").setValue(registeredUser.getLogin());
         $("[data-test-id='password'] input").setValue(registeredUser.getPassword());
         $("button.button").click();
-        $("h2").should(Condition.exactText("Личный кабинет"), Condition.visible);
+        $("h2").should(Condition.exactText("Личный кабинет"), (Condition.visible));
     }
 
     @Test
@@ -38,7 +40,8 @@ public class AuthTest {
         $("button.button").click();
         $("[data-test-id='error-notification'] .notification__content")
                 .shouldHave(Condition.text("Ошибка! Неверно указан логин или пароль"), Duration.ofSeconds(10))
-                .shouldBe((Condition.visible));
+                .shouldBe(Condition.visible);
+
     }
 
     @Test
@@ -48,9 +51,9 @@ public class AuthTest {
         $("[data-test-id='login'] input").setValue(blockedUser.getLogin());
         $("[data-test-id='password'] input").setValue(blockedUser.getPassword());
         $("button.button").click();
-        $("[data-test-id='error-notification'] .notification__content")
+        $("[data-test-id=error-notification] .notification__content")
                 .shouldHave(Condition.text("Ошибка! Пользователь заблокирован"), Duration.ofSeconds(10))
-                .shouldBe((Condition.visible));
+                .shouldBe(Condition.visible);
     }
 
     @Test
@@ -61,21 +64,20 @@ public class AuthTest {
         $("[data-test-id='login'] input").setValue(wrongLogin);
         $("[data-test-id='password'] input").setValue(registeredUser.getPassword());
         $("button.button").click();
-        $("[data-test-id='error-notification'] .notification__content")
+        $("[data-test-id=error-notification] .notification__content")
                 .shouldHave(Condition.text("Ошибка! Неверно указан логин или пароль"), Duration.ofSeconds(10))
-                .shouldBe((Condition.visible));
+                .shouldBe(Condition.visible);
     }
 
     @Test
-    @DisplayName("Should get error message if password with wrong password")
     void shouldGetErrorIfWrongPassword() {
         var registeredUser = getRegisteredUser("active");
         var wrongPassword = getRandomPassword();
         $("[data-test-id='login'] input").setValue(registeredUser.getLogin());
         $("[data-test-id='password'] input").setValue(wrongPassword);
         $("button.button").click();
-        $("[data-test-id='error-notification'] .notification__content")
+        $("[data-test-id=error-notification] .notification__content")
                 .shouldHave(Condition.text("Ошибка! Неверно указан логин или пароль"), Duration.ofSeconds(10))
-                .shouldBe((Condition.visible));
+                .shouldBe(Condition.visible);
     }
 }
