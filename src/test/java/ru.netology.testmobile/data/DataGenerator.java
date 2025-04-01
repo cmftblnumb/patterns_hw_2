@@ -1,3 +1,4 @@
+package ru.netology.testmobile.data;
 
 import com.github.javafaker.Faker;
 import io.restassured.builder.RequestSpecBuilder;
