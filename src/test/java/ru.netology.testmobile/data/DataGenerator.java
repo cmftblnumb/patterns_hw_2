@@ -35,11 +35,11 @@ public class DataGenerator {
     }
 
     public static String getRandomLogin() {
-        return Faker.name().username();
+        return faker.name().username();
     }
 
     public static String getRandomPassword() {
-        return Faker.internet().password();
+        return faker.internet().password();
     }
 
     public static class Registration {
